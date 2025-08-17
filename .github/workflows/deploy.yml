@@ -1,4 +1,4 @@
-name: Deploy NumberVerse to GH Pages
+name: Deploy NumberVerse
 
 on:
   push:
