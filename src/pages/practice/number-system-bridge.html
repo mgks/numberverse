@@ -1,0 +1,66 @@
+<!-- meta:title = Number System Bridge: Practice US & Indian Formats -->
+<!-- meta:description = A free tool to practice converting numbers between the US (Million, Billion) and Indian (Lakh, Crore) numbering systems in real-time. Perfect for students and finance professionals. -->
+
+<!-- HEADER -->
+
+<div class="page-header">
+    <h1>Number System Bridge</h1>
+    <p>Instantly convert numbers between US and Indian systems.</p>
+</div>
+
+<div class="converter-container">
+    <div class="input-area">
+        <label for="numberInput">Enter your number</label>
+        <input type="text" id="numberInput" placeholder="e.g., 12345678.90">
+    </div>
+
+    <div class="output-grid">
+        <!-- US System Output -->
+        <div class="output-card" id="us-output">
+            <h2>US System (Millions, Billions)</h2>
+            <p class="formatted-number">...</p>
+            <div class="adult-feature">
+                <p class="words">...</p>
+            </div>
+        </div>
+
+        <!-- Indian System Output -->
+        <div class="output-card" id="indian-output">
+            <h2>Indian System (Lakhs, Crores)</h2>
+            <p class="formatted-number">...</p>
+            <div class="adult-feature">
+                <!-- We now have a container for multiple word lines -->
+                <div class="words-container">
+                    <p class="words" id="indian-words-colloquial">...</p>
+                    <p class="words secondary" id="indian-words-formal">...</p>
+                </div>
+            </div>
+        </div>
+        <!-- Add a small message for the number limit -->
+        <p class="input-info" id="limit-message"></p>
+    </div>
+</div>
+
+<div class="input-info" id="limit-message"></div>
+
+<div class="page-footer-link">
+    <a href="#" id="instructions-link">Supported Input Formats</a>
+</div>
+
+<!-- This template holds the page-specific content for the modal. It's hidden by CSS. -->
+<div id="instructions-content-template" data-modal-title="Supported Input Formats" style="display: none;">
+    <h4>Adult Mode Supported Formats</h4>
+    <ul>
+        <li>Supports shorthand like <code>45.3B</code> (Billion), <code>10 M</code> (Million), <code>50k</code> (Thousand).</li>
+        <li>Indian units like <code>10cr</code> (Crore) and <code>5L</code> (Lakh) are also supported.</li>
+        <li>You can use aliases: <code>M, Mil, Million</code> all work.</li>
+        <li>Commas are ignored, so <code>1,000,000</code> is valid.</li>
+    </ul>
+    <h4>Kid Mode Supported Formats</h4>
+    <ul>
+        <li>Only numbers and a single decimal point are allowed.</li>
+        <li>Decimal values are rounded to two places.</li>
+    </ul>
+</div>
+
+<!-- FOOTER -->

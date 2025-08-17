@@ -1,0 +1,20 @@
+{
+  "name": "numberverse",
+  "version": "1.0.0",
+  "description": "The Number Playground & Quiz Hub",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.js",
+    "start-server": "live-server dist --port=8080 --no-browser",
+    "watch": "nodemon -L --watch src -e js,css,html --exec \"npm run build\"",
+    "dev": "concurrently \"npm:watch\" \"npm:start-server\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "live-server": "^1.2.2",
+    "nodemon": "^3.0.1"
+  }
+}

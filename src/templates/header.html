@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- This title is a placeholder that will be replaced by the build script -->
+    <title>NumberVerse</title>
+    
+    <!-- Google Font: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- The meta description tag will be injected here by the build script -->
+</head>
+<body data-mode="kid"> <!-- Default mode is kid, JS will update from localStorage -->
+    <header>
+        <a href="/" class="logo">NumberVerse</a>
+        <nav class="desktop-nav">
+            <!-- These are menu toggles, not direct links -->
+            <a href="#" data-menu-toggle="practice">Practice</a>
+            <a href="#" data-menu-toggle="challenge">Challenge</a>
+            <!-- This is a direct link -->
+            <a href="/scoreboard/">Scoreboard</a>
+        </nav>
+        <div class="controls">
+            <button id="modeToggle" class="control-button">Kid Mode</button>
+            <button id="themeToggle" class="control-button">Theme</button>
+        </div>
+        <!-- Hamburger Menu Button for Mobile -->
+        <button id="hamburger-btn" class="hamburger-btn">
+            <svg viewBox="0 0 100 80" width="25" height="25">
+                <rect width="100" height="15" rx="8"></rect>
+                <rect y="30" width="100" height="15" rx="8"></rect>
+                <rect y="60" width="100" height="15" rx="8"></rect>
+            </svg>
+        </button>
+    </header>
+    
+    <!-- Sub-Navigation Container (for dropdown menus) -->
+    <div id="sub-nav-container" class="sub-nav-container">
+        <!-- The content for the "Practice" menu -->
+        <nav id="practice-menu" class="sub-nav" data-menu="practice">
+            <a href="/practice/number-system-bridge/">Number System Bridge</a>
+            <!-- Add more practice tools here later, e.g., <a href="/practice/roman-numerals/">Roman Numerals</a> -->
+        </nav>
+        <!-- The content for the "Challenge" menu -->
+        <nav id="challenge-menu" class="sub-nav" data-menu="challenge">
+            <a href="/challenge/number-system-bridge/">Number System Bridge Quiz</a>
+            <!-- Add more challenges here later, e.g., <a href="/challenge/roman-numerals/">Roman Numerals Quiz</a> -->
+        </nav>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-nav" class="mobile-nav">
+        <!-- We will need to enhance the JS to handle sub-menus here as well -->
+        <a href="#" data-menu-toggle="practice-mobile">Practice</a>
+        <a href="#" data-menu-toggle="challenge-mobile">Challenge</a>
+        <a href="/scoreboard/">Scoreboard</a>
+    </div>
+    
+    <main>
