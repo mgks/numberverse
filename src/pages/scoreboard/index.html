@@ -1,0 +1,74 @@
+<!-- meta:title = Your Scoreboard & Progress -->
+<!-- meta:description = Track your progress, skill level, and daily streaks in NumberVerse. See your high scores for all challenges. -->
+
+<!-- HEADER -->
+<style>
+    /* Page-specific styles for the scoreboard */
+    .scoreboard-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; }
+    .stat-card { background-color: var(--card-bg-color); border-radius: 16px; padding: 1.5rem; text-align: center; }
+    .stat-card h3 { margin-bottom: 0.5rem; color: #6c757d; }
+    .stat-card p { font-size: 2rem; font-weight: 700; }
+    .score-list h2 { margin-bottom: 1rem; }
+    .score-item { display: flex; justify-content: space-between; padding: 0.8rem; border-bottom: 1px solid var(--border-color); }
+    .score-item:last-child { border-bottom: none; }
+</style>
+
+<div class="page-header">
+    <!-- The redundant toggle buttons have been REMOVED -->
+    <h1>Your Scoreboard</h1>
+    <p>Your stats for the currently selected mode. Use the header to switch.</p>
+</div>
+
+<div class="scoreboard-grid">
+    <div class="stats-summary">
+        <div class="stat-card">
+            <h3>Skill Level</h3>
+            <p id="skill-level">--</p>
+        </div>
+        <br>
+        <div class="stat-card">
+            <h3>Daily Streak</h3>
+            <p id="daily-streak">--</p>
+        </div>
+    </div>
+    <div class="score-list">
+        <h2>Recent Scores: Number System Bridge</h2>
+        <div id="nsb-scores-list">
+            <p>Loading stats...</p>
+        </div>
+    </div>
+</div>
+
+<!-- (The Skill Level Legend section remains the same) -->
+<div class="skill-legend">
+    <h2><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" stroke-width="3" stroke="#000" fill="none"><path d="m45.41 11.16.86 2.61a3.75 3.75 0 0 0 1.5 2L50 17.21a3.85 3.85 0 0 1 1.43 4.62l-.84 2.09a3.83 3.83 0 0 0 0 2.88l.83 2a3.83 3.83 0 0 1-1.32 4.58l-1.97 1.42a3.86 3.86 0 0 0-1.46 2.08L46 39.32a3.84 3.84 0 0 1-4 2.78l-2.1-.18a3.88 3.88 0 0 0-2.74.84l-2 1.63a3.83 3.83 0 0 1-4.85 0L28.54 43a3.85 3.85 0 0 0-2.45-.88H23a3.83 3.83 0 0 1-3.74-3l-.55-2.35a3.82 3.82 0 0 0-1.58-2.31l-1.83-1.27a3.84 3.84 0 0 1-1.45-4.48l.86-2.36a3.86 3.86 0 0 0 0-2.66l-.77-2.06a3.86 3.86 0 0 1 1.51-4.58l2-1.31a3.87 3.87 0 0 0 1.61-2.19l.61-2.18a3.85 3.85 0 0 1 4-2.79l1.93.17a3.88 3.88 0 0 0 2.74-.84l1.83-1.48a3.84 3.84 0 0 1 4.87 0l1.66 1.38a3.82 3.82 0 0 0 2.75.88l2-.15a3.84 3.84 0 0 1 3.96 2.62Z"></path><path d="m44.59 41.57 7 12.21c.18.31 0 .64-.23.55l-8.61-3.5a.24.24 0 0 0-.31.19l-1.06 9c-.06.29-.42.25-.6-.06l-8.13-14.71m0 0L25.14 60c-.19.31-.53.35-.6.07l-1.27-9.2a.24.24 0 0 0-.31-.18l-8.37 3.61c-.28.08-.43-.24-.24-.56l7-12.17m11.39-24.68 2.7 5.49a.1.1 0 0 0 .08.05l6 .88c.08 0 .12.12.06.17l-4.38 4.27a.09.09 0 0 0 0 .09l1 6a.1.1 0 0 1-.14.11l-5.42-2.85a.07.07 0 0 0-.09 0L27.19 34a.11.11 0 0 1-.15-.11l1-6a.1.1 0 0 0 0-.09l-4.39-4.27a.11.11 0 0 1 .06-.17l6.05-.88a.09.09 0 0 0 .08-.05l2.71-5.49a.1.1 0 0 1 .19-.05Z" stroke-linecap="round"></path></svg> Skill Level Tiers</h2>
+    <p>Your level is based on your average score in recent challenges.</p>
+    <div class="skill-card">
+        <!-- Tiers for Kids Mode -->
+        <div class="adult-feature"> <!-- This class hides it in kids mode -->
+            <h3>Adult Tiers</h3>
+            <ul>
+                <li>Analyst</li>
+                <li>Senior Analyst</li>
+                <li>Quant Pro</li>
+                <li>Calculation Virtuoso</li>
+                <li>NumberVerse Master</li>
+            </ul>
+        </div>
+        <!-- Tiers for Adult Mode -->
+        <div class="kids-feature" style="display: none;"> <!-- Hidden by default, shown in kids mode -->
+            <h3>Kids Tiers</h3>
+            <ul>
+                <li>Number Newcomer</li>
+                <li>Digit Explorer</li>
+                <li>Calculation Cadet</li>
+                <li>Math Whiz</li>
+                <li>Number Master</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="/js/pages/scoreboard.js" type="module"></script>
+
+<!-- FOOTER -->

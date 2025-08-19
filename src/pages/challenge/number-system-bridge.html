@@ -1,0 +1,79 @@
+<!-- meta:title = Challenge: Number System Bridge -->
+<!-- meta:description = Test your knowledge converting numbers between US (Million, Billion) and Indian (Lakh, Crore) systems in this fun, timed quiz. -->
+
+<!-- HEADER -->
+
+<style>
+    /* Page-specific styles for the challenge UI */
+    #challenge-container { text-align: center; max-width: 600px; margin: 2rem auto; }
+    .challenge-screen { padding: 2rem; background-color: var(--card-bg-color); border: 1px solid var(--border-color); border-radius: 16px; box-shadow: 0 4px 8px var(--shadow-color); }
+    #game-screen, #end-screen { display: none; }
+    #question-text { font-size: 1.5rem; margin: 1.5rem 0; min-height: 4.5rem; }
+    #challenge-answer { width: 100%; text-align: center; font-size: 1.5rem; padding: 0.8rem; border-radius: 12px; border: 2px solid var(--border-color); margin-bottom: 1rem; }
+    #question-counter { color: #6c757d; margin-bottom: 1rem; }
+    .feedback { min-height: 1.5rem; font-weight: 600; margin-top: 1rem; transition: color 0.3s; }
+    .feedback.correct { color: #28a745; }
+    .feedback.incorrect { color: #dc3545; }
+    .challenge-btn { padding: 0.8rem 1.5rem; font-size: 1.1rem; cursor: pointer; border: none; border-radius: 20px; font-weight: 600; background-color: var(--primary-color-adult); color: white; }
+    body[data-mode="kids"] .challenge-btn { background-color: var(--primary-color-kids); }
+</style>
+
+<div id="challenge-container">
+    <!-- 1. Start Screen -->
+    <div id="start-screen" class="challenge-screen">
+        <h1>Number System Bridge Challenge</h1>
+        <p>You will be asked 10 questions.<br />Answer as quickly and accurately as you can!</p>
+        <button id="start-challenge-btn" class="challenge-btn">Start Challenge</button>
+    </div>
+
+    <!-- 2. Game Screen -->
+    <div id="game-screen" class="challenge-screen">
+        <div id="timer" class="timer">--:--</div>
+        <p id="question-counter">Question 1 of 10</p>
+        <div id="question-text">...</div>
+        <input type="text" id="challenge-answer" placeholder="Your Answer">
+        <button id="submit-answer-btn" class="challenge-btn">Submit</button>
+        <p id="feedback" class="feedback"></p>
+    </div>
+
+    <!-- 3. End Screen -->
+    <div id="end-screen" class="challenge-screen">
+        <h1>Challenge Complete!</h1>
+        <p>Final Score: <strong id="final-score">0</strong></p>
+        <p>Accuracy: <strong id="final-accuracy">0%</strong></p>
+        <button id="play-again-btn" class="challenge-btn">Play Again</button><br />
+        <a href="/scoreboard/" class="scoreboard-btn">View Scoreboard</a>
+    </div>
+</div>
+
+<div class="page-footer-link">
+    <a href="#" id="instructions-link">How to Play & Question Types</a>
+</div>
+
+<div id="instructions-content-template" data-modal-title="Challenge Instructions" style="display: none;">
+    <!-- Content for Kids Mode -->
+    <div class="kids-instructions">
+        <h4>Your Mission!</h4>
+        <p>Answer 10 questions before the timer runs out. Good luck!</p>
+        <ul>
+            <li><strong>Format Conversion:</strong> Change a number from the US style to the Indian style (or back again).</li>
+            <li><strong>Words to Number:</strong> Read the number in words and type it using digits (e.g., <code>12345</code>).</li>
+        </ul>
+    </div>
+    <!-- Content for Adult Mode -->
+    <div class="adult-instructions">
+        <h4>Challenge Details</h4>
+        <p>Test your speed and accuracy across a variety of number conversion tasks. The timer duration adapts to your skill level.</p>
+        <ul>
+            <li><strong>Format Conversion:</strong> Convert between US (e.g., <code>1,234,567</code>) and Indian (e.g., <code>12,34,567</code>) formats. Commas matter!</li>
+            <li><strong>Words to Number:</strong> Convert written numbers like "Twenty Five Million" to digits.</li>
+            <li><strong>Number to Shorthand:</strong> Convert a full number to its common shorthand (e.g., <code>1,500,000</code> to <code>1.5M</code>).</li>
+            <li><strong>Shorthand to Shorthand:</strong> Convert directly between US and Indian shorthands (e.g., <code>1.5B</code> to <code>150Cr</code>).</li>
+        </ul>
+    </div>
+</div>
+
+<!-- This page-specific script tag is crucial for our new architecture -->
+<script src="/js/pages/number-system-bridge.js" type="module"></script>
+
+<!-- FOOTER -->
