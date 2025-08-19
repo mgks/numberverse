@@ -20,8 +20,9 @@ export const toggleTheme = () => {
     applyTheme(newTheme);
 };
 
-// --- Mode Management (Kid/Adult) ---
-let currentMode = getInitialPreference('mode', 'kid');
+// --- Mode Management (Kids/Adult) ---
+// Standardized on 'kids' (singular) to match our data structures.
+let currentMode = getInitialPreference('mode', 'kids');
 
 export const applyMode = (mode) => {
     currentMode = mode;
@@ -33,16 +34,45 @@ export const applyMode = (mode) => {
     if (modeToggleButton) {
         modeToggleButton.textContent = `${mode.charAt(0).toUpperCase() + mode.slice(1)} Mode`;
     }
+    
+    // BROADCAST THE CHANGE: Fire a custom event that other modules can listen for.
+    const event = new CustomEvent('modechange', {
+        detail: { newMode: mode }
+    });
+    docBody.dispatchEvent(event);
 };
 
-export const toggleMode = () => {
-    const newMode = currentMode === 'kid' ? 'adult' : 'kid';
-    applyMode(newMode);
+export const toggleMode = async () => {
+    const newMode = currentMode === 'kids' ? 'adult' : 'kids';
+    
+    // CHECK if a game is currently active
+    if (document.body.dataset.gameState === 'active') {
+        try {
+            // Await the user's choice from the confirmation modal
+            await window.openConfirmationModal(
+                'Switch Mode?',
+                '<p>A challenge is currently in progress. Switching modes will restart the challenge.</p>',
+                { confirmText: 'Restart in New Mode', cancelText: 'Continue Game' }
+            );
+
+            // Dispatch an event to tell the active challenge to abort itself
+            document.body.dispatchEvent(new CustomEvent('forceAbortChallenge'));
+            applyMode(newMode); // Now, switch the mode
+
+        } catch (error) {
+            // --- User clicked "Continue" or closed the modal ---
+            console.log('Mode switch cancelled.');
+            // Do nothing, the game continues.
+        }
+    } else {
+        // --- No game is active, switch immediately ---
+        applyMode(newMode);
+    }
 };
 
 // --- Initializer ---
 // This function runs once when the app loads
 export const initializeState = () => {
     applyTheme(currentTheme);
-    applyMode(currentMode);
+    applyMode(currentMode); // This will now fire the initial 'modechange' event on load
 };

@@ -1,3 +1,6 @@
+// --- THIS IS THE FIX: Import the functions it now depends on ---
+import { formatUS, formatIndian } from './numberFormatters.js';
+
 // --- DICTIONARIES AND CONSTANTS ---
 const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
 const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
@@ -11,7 +14,7 @@ const shorthandAliases = {
     'b': 'b', 'bil': 'b', 'billion': 'b', 't': 't', 'tril': 't', 'trillion': 't',
     'l': 'l', 'lakh': 'l', 'c': 'cr', 'cr': 'cr', 'crore': 'cr'
 };
-const MAX_NUMBER = 1000000000000000000n; // Using BigInt directly for safety
+const MAX_NUMBER = 1000000000000000000n;
 
 // --- HELPER FUNCTIONS ---
 function chunkToWords(n) {
@@ -31,7 +34,7 @@ function chunkToWords(n) {
 }
 
 // --- CORE WORD CONVERSION LOGIC ---
-function numberToWordsUS(numStr) {
+export function numberToWordsUS(numStr) {
     if (!numStr || numStr === '0') return 'Zero';
     let [integerPart] = numStr.split('.');
     if (BigInt(integerPart) > MAX_NUMBER) return 'Number is too large.';
@@ -70,8 +73,8 @@ function numberToWordsIndian(numStr) {
 
     let colloquialWords = '';
     const num = BigInt(integerPart);
-    // CORRECTED: Compare BigInt to BigInt using the 'n' suffix
-    if (num >= 1000000000n) { // 100 Crore
+    // This call to formatIndian is why the import was needed
+    if (num >= 1000000000n) { 
         const lakhCrores = num / 10000000n;
         colloquialWords = `${formatIndian(lakhCrores.toString())} Crore`;
     } else {
@@ -81,28 +84,7 @@ function numberToWordsIndian(numStr) {
     return { colloquial: colloquialWords, formal: formalWords.join(' ').trim() };
 }
 
-// --- FORMATTING AND PARSING ---
-// (Just in case, here are the safe versions of the formatters)
-const formatUS = (numStr) => {
-    if (!numStr) return '';
-    const [integerPart] = numStr.split('.');
-    if (integerPart && BigInt(integerPart) > MAX_NUMBER) return "Number too large";
-    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return numStr.includes('.') ? `${formattedInteger}.${numStr.split('.')[1]}` : formattedInteger;
-};
-
-const formatIndian = (numStr) => {
-    if (!numStr) return '';
-    const [integerPart] = numStr.split('.');
-    if (integerPart && BigInt(integerPart) > MAX_NUMBER) return "Number too large";
-    const lastThree = integerPart.slice(-3);
-    const otherNumbers = integerPart.slice(0, -3);
-    const formattedOther = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
-    const formattedInteger = formattedOther ? `${formattedOther},${lastThree}` : lastThree;
-    return numStr.includes('.') ? `${formattedInteger}.${numStr.split('.')[1]}` : formattedInteger;
-};
-
-
+// --- PARSING ---
 function parseAdvancedInput(input) {
     if (!input.trim()) return '';
     const cleaned = input.toLowerCase().replace(/,/g, '').trim();
@@ -115,8 +97,8 @@ function parseAdvancedInput(input) {
         if (!canonicalUnit) return null;
         const multiplier = shorthandMultipliers[canonicalUnit];
         const value = parseFloat(numericPart) * multiplier;
-        const isKidMode = document.body.getAttribute('data-mode') === 'kid';
-        return isKidMode ? value.toFixed(2) : String(value);
+        const isKidsMode = document.body.getAttribute('data-mode') === 'kids';
+        return isKidsMode ? value.toFixed(2) : String(value);
     } else {
         return numericPart;
     }
@@ -130,13 +112,12 @@ export function updateConverterOutputs(inputValue) {
     if (!usOutputCard || !indianOutputCard) return;
 
     if (!inputValue.trim()) {
-        // Clear all outputs and messages
         usOutputCard.querySelector('.formatted-number').textContent = '...';
         usOutputCard.querySelector('.words').textContent = '...';
         indianOutputCard.querySelector('.formatted-number').textContent = '...';
         indianOutputCard.querySelector('#indian-words-colloquial').textContent = '...';
         indianOutputCard.querySelector('#indian-words-formal').textContent = '';
-        limitMessage.textContent = '';
+        if(limitMessage) limitMessage.textContent = '';
         return;
     }
 
@@ -146,27 +127,24 @@ export function updateConverterOutputs(inputValue) {
         : inputValue.replace(/[^0-9.]/g, '');
 
     if (finalValue === null) {
-        limitMessage.textContent = 'Invalid format. Check supported inputs.';
+        if(limitMessage) limitMessage.textContent = 'Invalid format. Check supported inputs.';
         return;
     }
 
     const [integerPart = '0'] = finalValue.split('.');
-
-    // ADDED SAFETY: Use a try-catch block for BigInt conversion
+    
     try {
         const num = BigInt(integerPart);
         if (num > MAX_NUMBER) {
-            limitMessage.textContent = `Input limit is ${formatUS(MAX_NUMBER.toString())}.`;
+            if(limitMessage) limitMessage.textContent = `Input limit is ${formatUS(MAX_NUMBER.toString())}.`;
             return;
         }
     } catch (error) {
-        // This catches cases where BigInt() fails, e.g., with "1.2.3"
-        limitMessage.textContent = 'Invalid number format.';
+        if(limitMessage) limitMessage.textContent = 'Invalid number format.';
         return;
     }
     
-    // If we've passed all checks, clear the message
-    limitMessage.textContent = '';
+    if(limitMessage) limitMessage.textContent = '';
 
     const usFormatted = formatUS(finalValue);
     const indianFormatted = formatIndian(finalValue);
