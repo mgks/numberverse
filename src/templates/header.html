@@ -10,11 +10,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="/css/style.css">
     <!-- The meta description tag will be injected here by the build script -->
 </head>
-<body data-mode="kid"> <!-- Default mode is kid, JS will update from localStorage -->
+<body data-mode="kids"> <!-- Default mode is kids -->
+    <div class="kids-bg">
+        <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+            <defs>
+                <!-- Simple outline number 7 -->
+                <symbol id="svg-num-7" viewBox="0 0 100 120">
+                    <path d="M10 10 L90 10 L30 110" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </symbol>
+                <!-- Simple outline number 3 -->
+                <symbol id="svg-num-3" viewBox="0 0 100 120">
+                    <path d="M20 20 Q 80 20, 80 60 Q 80 100, 20 100" stroke-width="12" stroke-linecap="round" fill="none"/>
+                </symbol>
+                <!-- Simple outline number 9 -->
+                <symbol id="svg-num-9" viewBox="0 0 100 120">
+                    <circle cx="55" cy="45" r="35" stroke-width="12" fill="none"/>
+                    <path d="M90 45 A 35 35 0 1 1 90 110" stroke-width="12" stroke-linecap="round" fill="none"/>
+                </symbol>
+            </defs>
+        </svg>
+    </div>
     <header>
         <a href="/" class="logo">NumberVerse</a>
         <nav class="desktop-nav">
@@ -25,7 +44,7 @@
             <a href="/scoreboard/">Scoreboard</a>
         </nav>
         <div class="controls">
-            <button id="modeToggle" class="control-button">Kid Mode</button>
+            <button id="modeToggle" class="control-button">Kids Mode</button>
             <button id="themeToggle" class="control-button">Theme</button>
         </div>
         <!-- Hamburger Menu Button for Mobile -->
