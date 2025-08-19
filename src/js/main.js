@@ -1,5 +1,5 @@
 import { initializeState, toggleTheme, toggleMode } from './modules/stateManager.js';
-import { updateConverterOutputs } from './modules/numberLogic.js';
+import { initKidsMode } from './modules/kidsMode.js';
 
 // --- MODAL MANAGER MODULE ---
 // This section handles the generic functionality of opening and closing the modal.
@@ -7,6 +7,9 @@ const modalOverlay = document.getElementById('modal-overlay');
 const modalTitleElem = document.getElementById('modal-title');
 const modalContentElem = document.getElementById('modal-content');
 const modalCloseBtn = document.getElementById('modal-close-btn');
+const modalActions = document.getElementById('modal-actions');
+const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+const modalCancelBtn = document.getElementById('modal-cancel-btn');
 
 function openModal(title, contentHTML) {
     if (!modalOverlay) return;
@@ -19,16 +22,66 @@ function closeModal() {
     if (!modalOverlay) return;
     modalOverlay.classList.remove('active');
 }
+
+/**
+ * Opens a confirmation modal and returns a promise.
+ * Resolves if the user confirms, rejects if they cancel.
+ * @param {string} title
+ * @param {string} contentHTML
+ * @param {object} [options] - { confirmText: 'OK', cancelText: 'Cancel' }
+ * @returns {Promise<void>}
+ */
+function openConfirmationModal(title, contentHTML, options = {}) {
+    return new Promise((resolve, reject) => {
+        if (!modalOverlay) return reject();
+
+        modalTitleElem.textContent = title;
+        modalContentElem.innerHTML = contentHTML;
+        
+        modalConfirmBtn.textContent = options.confirmText || 'Confirm';
+        modalCancelBtn.textContent = options.cancelText || 'Cancel';
+        modalActions.style.display = 'block';
+        modalCloseBtn.style.display = 'none';
+
+        modalOverlay.classList.add('active');
+
+        const handleConfirm = () => {
+            closeModal();
+            cleanup();
+            resolve();
+        };
+
+        const handleCancel = () => {
+            closeModal();
+            cleanup();
+            reject();
+        };
+
+        const cleanup = () => {
+            modalConfirmBtn.removeEventListener('click', handleConfirm);
+            modalCancelBtn.removeEventListener('click', handleCancel);
+            modalActions.style.display = 'none';
+            modalCloseBtn.style.display = 'block';
+        };
+
+        modalConfirmBtn.addEventListener('click', handleConfirm);
+        modalCancelBtn.addEventListener('click', handleCancel);
+    });
+}
+// Make the confirmation modal globally accessible
+window.openConfirmationModal = openConfirmationModal;
+
 // --- END MODAL MANAGER ---
 
 
 // This event ensures our script runs after the entire HTML page is loaded.
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. INITIALIZE SETTINGS (THEME & MODE) ---
+    // --- INITIALIZE GLOBAL SETTINGS ---
     initializeState();
+    initKidsMode();
     
-    // --- 2. HEADER CONTROLS ---
+    // --- GLOBAL HEADER CONTROLS ---
     const themeToggleButton = document.getElementById('themeToggle');
     if (themeToggleButton) {
         themeToggleButton.addEventListener('click', toggleTheme);
@@ -39,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modeToggleButton.addEventListener('click', toggleMode);
     }
 
-    // --- 3. DROPDOWN NAVIGATION ---
+    // --- GLOBAL DROPDOWN NAVIGATION ---
     const menuToggles = document.querySelectorAll('[data-menu-toggle]');
     const subNavContainer = document.getElementById('sub-nav-container');
     const subMenus = document.querySelectorAll('[data-menu]');
@@ -74,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 4. HAMBURGER MENU (MOBILE) ---
+    // --- GLOBAL HAMBURGER MENU (MOBILE) ---
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const mobileNav = document.getElementById('mobile-nav');
     if (hamburgerBtn && mobileNav) {
@@ -83,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 5. MODAL EVENT LISTENERS ---
+    // --- GLOBAL MODAL EVENT LISTENERS ---
     if (modalOverlay && modalCloseBtn) {
         modalOverlay.addEventListener('click', (e) => {
             if (e.target === modalOverlay) closeModal();
@@ -91,18 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalCloseBtn.addEventListener('click', closeModal);
     }
     
-    // --- 6. PAGE-SPECIFIC LOGIC ---
-
-    // A. Number System Bridge Logic
-    const numberInput = document.getElementById('numberInput');
-    if (numberInput) {
-        numberInput.addEventListener('input', (e) => {
-            updateConverterOutputs(e.target.value);
-        });
-        updateConverterOutputs(''); // Initial call to clear placeholders
-    }
-    
-    // B. Reusable Instructions Modal Logic
+    // --- GENERIC INSTRUCTIONS MODAL LOGIC (can live here as it's reusable) ---
     const instructionsLink = document.getElementById('instructions-link');
     const instructionsContent = document.getElementById('instructions-content-template');
     
