@@ -10,7 +10,7 @@ Whether you're a child learning place value or a finance professional constantly
 
 ### ✨ Key Features
 
-*   **Dual-Audience Design:** A simple toggle switches the app between a fun **Kid Mode** and a powerful **Adult Mode**.
+*   **Dual-Audience Design:** A simple toggle switches the app between a fun **Kids Mode** and a powerful **Adult Mode**.
 *   **Number System Bridge:** An intuitive tool to instantly convert numbers between the US (Millions, Billions) and Indian (Lakhs, Crores) systems, complete with their written forms.
 *   **Practical Shorthand:** Adult mode understands inputs like `45.3B` (for Billion) or `10cr` (for Crore), mimicking real-world use.
 *   **Clean Interface:** A modern, responsive design with user-selectable **Light & Dark** themes that works beautifully on any device.
